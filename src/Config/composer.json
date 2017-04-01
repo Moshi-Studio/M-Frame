@@ -1,0 +1,39 @@
+{
+  "name": "Moshi-Inc/M-Frame",
+  "type": "project",
+  "description": "Framework for PHP 5.5+. Small, fast, easy and RESTful.",
+  "keywords": [
+    "Framework",
+    "PHP",
+    "RESTful",
+    "mini",
+    "small",
+    "fast",
+    "easy",
+    "RESTful"
+  ],
+  "homepage": "https://github.com/Moshi-Inc/M-Frame",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Moshi-Inc",
+      "email": "moshi@moshi.co",
+      "homepage": "http://moshi.co",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "": [
+        "../../app/",
+        "../../src/"
+      ]
+    }
+  },
+  "config": {
+    "vendor-dir": "../Vendors"
+  }
+}

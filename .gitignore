@@ -1,5 +1,6 @@
 .DS_Store
 .idea
+.htaccess
 Vendors/
 config.ini
 composer.lock

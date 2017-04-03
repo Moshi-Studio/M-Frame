@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>M-Frame | <?php echo $title ?></title>
+    <link rel="shortcut icon" href="/favicon.ico">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/_/css/normalize.css">

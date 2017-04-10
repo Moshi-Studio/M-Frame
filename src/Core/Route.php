@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Src\Core;
 
 class Route
 {
@@ -59,7 +59,7 @@ class Route
 
     private function addRoute($route, $controller, $method, $httpMethod)
     {
-        $controller = (M::App()->space()) ? M::App()->space() . '\Controller\\' . $controller : '\Controller\\' . $controller;
+        $controller = (M::App()->space()) ? 'App\\' . M::App()->space() . '\Controller\\' . $controller : 'App\Controller\\' . $controller;
         $this->routes[] = array(
             'route' => $route,
             'controller' => $controller,

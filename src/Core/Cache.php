@@ -1,5 +1,6 @@
 <?php
-namespace Core;
+
+namespace Src\Core;
 
 use Memcached;
 

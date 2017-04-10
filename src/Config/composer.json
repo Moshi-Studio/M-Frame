@@ -1,25 +1,21 @@
 {
   "name": "Moshi-Inc/M-Frame",
-  "type": "project",
-  "description": "Framework for PHP 5.5+. Small, fast, easy and RESTful.",
-  "keywords": [
-    "Framework",
-    "PHP",
-    "RESTful",
-    "mini",
-    "small",
-    "fast",
-    "easy",
-    "RESTful"
-  ],
-  "homepage": "https://github.com/Moshi-Inc/M-Frame",
+  "description": "The M Framework for PHP 5.5+. Small, fast, easy and RESTful.",
+  "keywords": ["Framework", "PHP", "RESTful", "mini", "small", "fast", "easy"],
   "license": "MIT",
+  "type": "project",
   "authors": [
     {
-      "name": "Moshi-Inc",
-      "email": "moshi@moshi.co",
-      "homepage": "http://moshi.co",
-      "role": "Developer"
+      "name": "Cristian Castillo",
+      "email": "inbox@cris.mx",
+      "homepage": "http://cris.mx",
+      "role": "Co-author"
+    },
+    {
+      "name": "Alejandro Zepeda",
+      "email": "hola@alejandrozepeda.mx",
+      "homepage": "http://alejandrozepeda.mx",
+      "role": "Co-author"
     }
   ],
   "require": {
@@ -27,13 +23,13 @@
   },
   "autoload": {
     "psr-4": {
-      "": [
-        "../../app/",
-        "../../src/"
-      ]
+      "App\\" : "../../app/",
+      "Src\\" : "../../src/"
     }
   },
   "config": {
     "vendor-dir": "../Vendors"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

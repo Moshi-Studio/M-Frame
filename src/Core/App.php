@@ -56,7 +56,7 @@ class App
     {
         $this->setPath('root', $basePath);
         $this->setPath('base', $basePath . '/src/Core/');
-        $this->setPath('config', $basePath . '/src/Config/');
+        $this->setPath('config', $basePath . '/src/');
 
         $this->loadConfig();
 
@@ -116,7 +116,7 @@ class App
     private function loadConfig()
     {
         $this->config = new stdClass;
-        $file = $this->getPath('config') . 'config.ini';
+        $file = $this->getPath('config') . 'Config.ini';
         $parsed_array = parse_ini_file($file, true);
         foreach ($parsed_array as $key => $value) {
             if (!is_array($value)) {

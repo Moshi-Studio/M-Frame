@@ -1,1 +1,1 @@
-<?php require '../src/Bootstrap.php';
+<?php require '../src/Boot.php';

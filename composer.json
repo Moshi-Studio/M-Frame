@@ -1,9 +1,10 @@
 {
-  "name": "Moshi-Inc/M-Frame",
+  "name": "Moshi-Studio/M-Frame",
   "description": "The M Framework for PHP 5.5+. Small, fast, easy and RESTful.",
   "keywords": ["Framework", "PHP", "RESTful", "mini", "small", "fast", "easy"],
   "license": "MIT",
   "type": "project",
+  "homepage": "https://github.com/Moshi-Studio/M-Frame",
   "authors": [
     {
       "name": "Cristian Castillo",

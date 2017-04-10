@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\" : "../../app/",
-      "Src\\" : "../../src/"
+      "App\\" : "app/",
+      "Src\\" : "src/"
     }
   },
   "config": {
-    "vendor-dir": "../Vendors"
+    "vendor-dir": "src/Vendors"
   },
   "minimum-stability": "dev",
   "prefer-stable": true

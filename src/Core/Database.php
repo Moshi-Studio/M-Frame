@@ -160,9 +160,7 @@ class Database extends PDO
     public static function getInstance()
     {
         if (!self::$instance instanceof self) {
-            self::$instance = new self(self::$type.':host='.self::$host.';dbname='.self::$name.';port='.self::$port, self::$username, self::$password);
-            self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+            self::$instance = new self(self::$type.':host='.self::$host.';dbname='.self::$name.';port='.self::$port, self::$username, self::$password, array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION));
         }
         return self::$instance;
     }

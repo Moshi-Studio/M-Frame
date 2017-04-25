@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="">
 <head>
     <meta charset="utf-8">
@@ -11,9 +11,13 @@
     <link rel="stylesheet" href="/_/css/main.css">
 </head>
 <body>
-<div class="container">
-    <?php include_once $layout . '_' . $view . '.php'; ?>
-</div>
+<header></header>
+<main>
+    <div class="container">
+        <?php include_once  $layout . '_' . $view . '.php'; ?>
+    </div>
+</main>
+<footer></footer>
 <script src="/_/js/main.js"></script>
 </body>
 </html>

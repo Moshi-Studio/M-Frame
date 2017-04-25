@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Core;
+namespace Core;
 
 class Response
 {
@@ -49,7 +49,7 @@ class Response
         if (isset($response['kind']) && in_array($response['kind'], $this->responseKind)) {
             switch ($response['kind']) {
                 case 'page':
-                    $this->display($response['layout'] . '.php', $response);
+                    $this->display('index.php', $response);
                     break;
                 case 'redirect':
                     $this->redirect($response['url'], $response['code'], true);

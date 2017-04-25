@@ -2,7 +2,7 @@
 
 require __DIR__ . '/Vendors/autoload.php';
 
-use Src\Core\M;
+use Core\M;
 
 M::App()->init(realpath(__DIR__ . '/../'));
 

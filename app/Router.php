@@ -1,6 +1,6 @@
 <?php
 
-use Src\Core\M;
+use Core\M;
 
 M::Route()->get('/', 'DefaultController', 'home');
 M::Route()->get('/subpage', 'DefaultController', 'subPage');

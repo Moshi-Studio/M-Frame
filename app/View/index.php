@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/_/css/normalize.css">
-    <link rel="stylesheet" href="/_/css/main.css">
+    <link rel="stylesheet" href="<?php echo SP_FILES?>css/normalize.css">
+    <link rel="stylesheet" href="<?php echo SP_FILES?>css/main.css">
 </head>
 <body>
 <header></header>
@@ -18,6 +18,6 @@
     </div>
 </main>
 <footer></footer>
-<script src="/_/js/main.js"></script>
+<script src="<?php echo SP_FILES ?>js/main.js"></script>
 </body>
 </html>

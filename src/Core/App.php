@@ -61,10 +61,12 @@ class App
         $this->loadConfig();
 
         if ($space = $this->space()) {
-            $this->setPath('controller', $basePath . '/app/' . $space . '/Controller/');
-            $this->setPath('model', $basePath . '/app/' . $space . '/Model/');
-            $this->setPath('view', $basePath . '/app/' . $space . '/View/');
+            DEFINE('APP_DIR', $basePath . '/app/' . $space);
+            $this->setPath('controller', APP_DIR . '/Controller/');
+            $this->setPath('model', APP_DIR . '/Model/');
+            $this->setPath('view', APP_DIR . '/View/');
         } else {
+            DEFINE('APP_DIR', '/');
             $this->setPath('controller', $basePath . '/app/Controller/');
             $this->setPath('model', $basePath . '/app/Model/');
             $this->setPath('view', $basePath . '/app/View/');
@@ -102,10 +104,14 @@ class App
             );
         }
 
-
         if (!empty($constants)) {
             $this->loadConstants($this->getConfig($constants));
         }
+    }
+
+    public function spacePublic($dir) {
+        DEFINE('SP_DIR', $dir);
+        DEFINE('SP_FILES', M::App()->space() ? SP_DIR . '_/' . strtolower(M::App()->space()) . '/' : SP_DIR . '_/');
     }
 
     public function run()

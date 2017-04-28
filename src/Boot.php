@@ -13,6 +13,8 @@ if (M::App()->getConfig('app')->domain == $_SERVER['SERVER_NAME']) {
     M::App()->setEnv('dev');
 }
 
+M::App()->spacePublic('/');
+
 require __DIR__ . '/../app/Router.php';
 
 M::App()->run();

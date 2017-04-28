@@ -38,18 +38,17 @@ class App
 
     public function space()
     {
-        $space = false;
         if ($spaces = $this->getConfig('app')->spaces) {
             $uris = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+            $uris = str_replace($this->getPath('sp'), '/', $uris);
             $uri = strtolower(explode('/', $uris)[1]);
             $spaces = explode(',', $spaces);
             if ($uris !== '/' && in_array($uri, $spaces)) {
-                $space = ucfirst($uri);
-            } else {
-                $space = 'Web';
+                return ucfirst($uri);
             }
+            return 'Web';
         }
-        return $space;
+        return false;
     }
 
     public function init($basePath)
@@ -110,7 +109,8 @@ class App
     }
 
     public function spacePublic($dir) {
-        DEFINE('SP_DIR', $dir);
+        $this->setPath('sp', $dir);
+        DEFINE('SP_DIR', $this->getPath('sp'));
         DEFINE('SP_FILES', M::App()->space() ? SP_DIR . '_/' . strtolower(M::App()->space()) . '/' : SP_DIR . '_/');
     }
 

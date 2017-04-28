@@ -6,11 +6,11 @@ use Core\M;
 
 M::App()->init(realpath(__DIR__ . '/../'));
 
-if (M::App()->getConfig('app')->domain == $_SERVER['SERVER_NAME']) {
-    error_reporting(0);
-} else {
+if (M::App()->getConfig('app')->domain != $_SERVER['SERVER_NAME']) {
     error_reporting(E_ALL);
     M::App()->setEnv('dev');
+} else {
+    error_reporting(0);
 }
 
 M::App()->spacePublic('/');

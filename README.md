@@ -1,52 +1,47 @@
-# M-Frame
-M-Frame es un marco de trabajo simple, rápido y RESTful para PHP.
-Fue creado para nuestro trabajo diario simplemente porque era mucho más 
-fácil de configurar y manejar que los grandes Frameworks.
+# M Frame
+M Frame es un marco de trabajo simple, rápido y RESTful para PHP. Fue creado para nuestro trabajo diario simplemente porque era mucho más fácil de configurar y manejar que los grandes Frameworks.
 
-## Requirements
+## Requisitos
 
-M-Frame requires `PHP 5.3` or greater.  
+M Frame necesita `PHP 5.3` o mayor.  
 
-## Installation
+## Instalación
 
-### Download the files
+### Descarga los archivos
 
-M-frame se encuentra en Packagist y puede instalarlo desde la terminal 
-usando el siguiente comando:
+M Frame se encuentra en Packagist y puedes instalarlo desde la terminal usando el siguiente comando:
 
 ```
-composer require Moshi-Studio/M-Frame
+composer create-project moshi-studio/m-frame
 ```
 
-o también puede [descargar](https://github.com/Moshi-Studio/M-Frame/archive)
-los archivos directamente y extraerlos en su directorio web. 
+o también puedes [descargar](https://github.com/Moshi-Studio/M-Frame/archive/master.zip)
+los archivos directamente y extraerlos en tu directorio web. 
 
-### Configure your webserver
+### Configura tu servidor web
 
 #### Apache
 
-Edite su archivo `.htaccess` y coloquelo en la carpeta `/public`
+Crea y edita el archivo `.htaccess` y colocalo en la carpeta `/public`
 
 ``` 
 RewriteEngine on
-RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)\?*$ index.php?__route__=/$1 [L,QSA]
 ```
 
-**Nota**: Si necesita usar M-Frame en un subdirectorio agregue la linea 
- `RewriteBase /subdir/` despues de `RewriteEngine On`.
+**Nota**: Si necesitas usar M Frame en un subdirectorio pasa por parámetro la ruta desde tu directorio web a la subcarpeta en la función `M::App()->spacePublic('/subdir/');` en `/src/Boot.php`. 
 
 #### Nginx
 
 #### Virtualhost
 
-## Quick Start
+## Inicio rápido
 
-## Modules
+## Documentación
 
-Read documentation on the individual modules available in M-Frame.
+Lee la documentación de los módulos disponibles en M Frame y los distintos ejemplos. 
 
 1. [M](https://github.com/Moshi-Studio/M-Frame/wiki/04-The-M-Class)
 2. [App](https://github.com/Moshi-Studio/M-Frame/wiki/05-The-App-Class)
@@ -56,28 +51,19 @@ Read documentation on the individual modules available in M-Frame.
 6. [Session](https://github.com/Moshi-Studio/M-Frame/wiki/10-Session)
 7. [Database](https://github.com/Moshi-Studio/M-Frame/wiki/11-Database)
 8. [Cache](https://github.com/Moshi-Studio/M-Frame/wiki/12-Cache)
+9. [Ejemplos]()
 
-## Documentation
-
-Full docs & tutorials are available on [wiki](https://github.com/Moshi-Studio/M-Frame/wiki).
-
-## Maintainers
+## Desarrolladores
 
 * [cr1st1an](https://twitter.com/cr1st1an)
 * [alejandro_zv](https://twitter.com/alejandro_zv)
 
-## Contributing
+## Contribuciones
 
 #### Code Style
 
-All pull requests must use the [PSR-2](http://www.php-fig.org/psr/psr-2/) code style. 
+Todos los pull requests deben hacerse con el estándar [PSR-2](http://www.php-fig.org/psr/psr-2/). 
 
-## License
- 
-The M-Frame Framework is under the MIT License, you can view the license
-[here](https://github.com/Moshi-Studio/M-Frame/master/LICENSE.txt).
- 
+## Licencia 
 
-
-
-
+M Frame se encuentra bajo [MIT License](https://github.com/Moshi-Studio/M-Frame/master/LICENSE.txt).

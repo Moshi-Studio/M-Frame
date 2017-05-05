@@ -35,7 +35,9 @@ class Route
     public function dispatch()
     {
         $routeDef = array();
-        $this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : '/';
+
+        $this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : $_SERVER['REQUEST_URI'];
+        //$this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : '/';
 
         foreach ($this->regexes as $ind => $regex) {
             if (preg_match($regex, $this->route, $arguments)) {

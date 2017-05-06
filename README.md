@@ -26,7 +26,7 @@ $ php -S localhost:8000 -t public/ server.php
 
 y abra en un navegador [http://localhost:8000](http://localhost:8000).
 
-Para obtener más información sobre cómo configurar su servidor web, consulte la [documentación]().
+Para obtener más información sobre cómo configurar su servidor web, consulte la [documentación](https://github.com/Moshi-Studio/M-Frame/wiki).
 
 ## Desarrolladores
 

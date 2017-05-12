@@ -18,13 +18,13 @@ Use [Composer](https://getcomposer.org/) para realizar la instalación:
 $ composer create-project moshi-studio/m-frame myproject
 ```
 
-lo anterior creará un directorio llamado `myproject`. Acceda al directorio `myproject` y ejecute: 
+Acceda al directorio `myproject` y ejecute: 
 
 ```bash
 $ php -S localhost:8000 -t public/ server.php
 ```
 
-para comprobar que la instalación fue exitosa debe poder navegar entre los siguientes links: 
+este comando iniciará un servidor local de desarrollo en los siguientes links: 
 
 * <http://localhost:8000>
 * <http://localhost:8000/subpage>

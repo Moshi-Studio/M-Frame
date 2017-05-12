@@ -8,25 +8,28 @@ M Frame es un micro Framework de PHP ideal para crear aplicaciones web y APIs RE
 
 ## Requisitos
 
-`PHP 5.4` o mayor.  
+`PHP 5.4` o mayor y [Composer](https://getcomposer.org/).
 
 ## Instalación
 
 Use [Composer](https://getcomposer.org/) para realizar la instalación:
 
 ```bash
-$ composer create-project moshi-studio/m-frame foldername
+$ composer create-project moshi-studio/m-frame myproject
 ```
 
-Acceda a la carpeta creada y ejecute el `built-in PHP server`: 
+lo anterior creará un directorio llamado `myproject`. Acceda al directorio `myproject` y ejecute: 
 
 ```bash
 $ php -S localhost:8000 -t public/ server.php
 ```
 
-y abra en un navegador [http://localhost:8000](http://localhost:8000).
+para comprobar que la instalación fue exitosa debe poder navegar entre los siguientes links: 
 
-Para obtener más información sobre cómo configurar su servidor web, consulte la [documentación](https://github.com/Moshi-Studio/M-Frame/wiki).
+* <http://localhost:8000>
+* <http://localhost:8000/subpage>
+
+Para más información sobre M Frame consulte la [documentación](https://github.com/Moshi-Studio/M-Frame/wiki).
 
 ## Desarrolladores
 

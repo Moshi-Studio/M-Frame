@@ -111,7 +111,7 @@ class App
     public function spacePublic($dir) {
         $this->setPath('sp', $dir);
         DEFINE('SP_DIR', $this->getPath('sp'));
-        DEFINE('SP_FILES', M::App()->space() ? SP_DIR . '_/' . strtolower(M::App()->space()) . '/' : SP_DIR . '_/');
+        DEFINE('SP_FILES', M::App()->space() ? SP_DIR . 'assets/' . strtolower(M::App()->space()) . '/' : SP_DIR . 'assets/');
     }
 
     public function run()

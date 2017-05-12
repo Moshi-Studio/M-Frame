@@ -4,7 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/moshi-studio/m-frame/downloads)](https://packagist.org/packages/moshi-studio/m-frame)
 [![License](https://poser.pugx.org/moshi-studio/m-frame/license)](https://packagist.org/packages/moshi-studio/m-frame)
 
-M Frame es un micro Framework de PHP ideal para crear aplicaciones web y APIs RESTful de manera simple y rápida.
+M Frame es un micro framework de PHP ideal para crear aplicaciones web y APIs RESTful de manera simple y rápida.
 
 ## Requisitos
 
@@ -24,10 +24,7 @@ Acceda al directorio `myproject` y ejecute:
 $ php -S localhost:8000 -t public/ server.php
 ```
 
-este comando iniciará un servidor local de desarrollo en los siguientes links: 
-
-* <http://localhost:8000>
-* <http://localhost:8000/subpage>
+este comando iniciará un servidor local de desarrollo en <http://localhost:8000>.
 
 Para más información sobre M Frame consulte la [documentación](https://github.com/Moshi-Studio/M-Frame/wiki).
 

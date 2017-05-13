@@ -36,7 +36,9 @@ class Route
     {
         $routeDef = array();
 
-        $this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : $_SERVER['REQUEST_URI'];
+        $localServer = SP_DIR === '/' ? $_SERVER['REQUEST_URI'] : '/';
+
+        $this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : $localServer;
 
         foreach ($this->regexes as $ind => $regex) {
             if (preg_match($regex, $this->route, $arguments)) {

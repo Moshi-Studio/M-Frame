@@ -35,9 +35,7 @@ class Route
     public function dispatch()
     {
         $routeDef = array();
-
         $localServer = SP_DIR === '/' ? $_SERVER['REQUEST_URI'] : '/';
-
         $this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : $localServer;
 
         foreach ($this->regexes as $ind => $regex) {

@@ -51,8 +51,10 @@ class App
         return false;
     }
 
-    public function init($basePath)
+    public function init()
     {
+        $basePath = realpath(__DIR__ . '/../../');
+
         $this->setPath('root', $basePath);
         $this->setPath('base', $basePath . '/src/Core/');
         $this->setPath('config', $basePath . '/src/');
@@ -60,12 +62,11 @@ class App
         $this->loadConfig();
 
         if ($space = $this->space()) {
-            DEFINE('APP_DIR', $basePath . '/app/' . $space);
-            $this->setPath('controller', APP_DIR . '/Controller/');
-            $this->setPath('model', APP_DIR . '/Model/');
-            $this->setPath('view', APP_DIR . '/View/');
+            $appDir = $basePath . '/app/' . $space;
+            $this->setPath('controller', $appDir . '/Controller/');
+            $this->setPath('model', $appDir . '/Model/');
+            $this->setPath('view', $appDir . '/View/');
         } else {
-            DEFINE('APP_DIR', '/');
             $this->setPath('controller', $basePath . '/app/Controller/');
             $this->setPath('model', $basePath . '/app/Model/');
             $this->setPath('view', $basePath . '/app/View/');
@@ -111,7 +112,7 @@ class App
     public function spacePublic($dir) {
         $this->setPath('sp', $dir);
         DEFINE('SP_DIR', $this->getPath('sp'));
-        DEFINE('SP_FILES', M::App()->space() ? SP_DIR . 'assets/' . strtolower(M::App()->space()) . '/' : SP_DIR . 'assets/');
+        DEFINE('SP_FILES', M::App()->space() ? SP_DIR . 'files/' . strtolower(M::App()->space()) . '/' : SP_DIR . 'files/');
     }
 
     public function run()

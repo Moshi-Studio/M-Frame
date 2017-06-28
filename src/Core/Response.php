@@ -4,16 +4,29 @@ namespace Core;
 
 class Response
 {
-    private static $instance;
+    public static function handler($response)
+    {
+        if (isset($response['kind']) && in_array($response['kind'], array('page', 'redirect'))) {
+            switch ($response['kind']) {
+                case 'page':
+                    self::page('index.php', $response);
+                    break;
+                case 'redirect':
+                    self::redirect($response['url'], $response['code'], true);
+                    break;
+            }
+        } else {
+            self::json($response);
+        }
+    }
 
-    private $responseKind = array('page', 'redirect');
-
-    private function display($template, $vars)
+    private static function page($template, $vars)
     {
         if (is_array($vars)) {
             extract($vars);
         }
-        $templateInclude = M::App()->getPath('view') . $template;
+        $viewsPath = App::getConfig('basePath') . (($space = App::space()) ? '/src/App/' . $space . '/View/' : '/src/App/View/');
+        $templateInclude = $viewsPath . $template;
         if (is_file($templateInclude)) {
             require $templateInclude;
         } elseif (is_file($template)) {
@@ -21,15 +34,7 @@ class Response
         }
     }
 
-    private function json($response)
-    {
-        $response = json_encode($response);
-        header('Content-Type: application/json');
-        header('Content-Length:' . strlen($response));
-        echo $response;
-    }
-
-    private function redirect($url, $code = null, $offDomain = false)
+    private static function redirect($url, $code = null, $offDomain = false)
     {
         $continue = !empty($url);
         if ($offDomain === false && preg_match('#^https?://#', $url)) {
@@ -44,27 +49,11 @@ class Response
         }
     }
 
-    public function handler($response)
+    private static function json($response)
     {
-        if (isset($response['kind']) && in_array($response['kind'], $this->responseKind)) {
-            switch ($response['kind']) {
-                case 'page':
-                    $this->display('index.php', $response);
-                    break;
-                case 'redirect':
-                    $this->redirect($response['url'], $response['code'], true);
-                    break;
-            }
-        } else {
-            $this->json($response);
-        }
-    }
-
-    public static function getInstance()
-    {
-        if (!self::$instance instanceof self) {
-            self::$instance = new self;
-        }
-        return self::$instance;
+        $response = json_encode($response);
+        header('Content-Type: application/json');
+        header('Content-Length:' . strlen($response));
+        echo $response;
     }
 }

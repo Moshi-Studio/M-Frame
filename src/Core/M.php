@@ -2,35 +2,30 @@
 
 namespace Core;
 
+use Exception;
+
 class M
 {
-    public static function App()
+    private static $registry = [];
+
+    public static function set($key, $value)
     {
-        return App::getInstance();
+        static::$registry[$key] = $value;
     }
 
-    public static function Cache()
+    public static function get($key)
     {
-        return Cache::getInstance();
+        if (!array_key_exists($key, self::$registry)) {
+            throw new Exception("No {$key} is bound in the container.");
+        }
+        return self::$registry[$key];
     }
 
-    public static function Database()
+    public static function __callStatic($key, $arguments)
     {
-        return Database::getInstance();
-    }
-
-    public static function Response()
-    {
-        return Response::getInstance();
-    }
-
-    public static function Route()
-    {
-        return Route::getInstance();
-    }
-
-    public static function Session()
-    {
-        return Session::getInstance();
+        if (! array_key_exists(strtolower($key), self::$registry)) {
+            throw new Exception("No {$key} is bound in the container.");
+        }
+        return self::$registry[strtolower($key)];
     }
 }

@@ -1,19 +1,21 @@
 <?php
 
-namespace Core;
+namespace Data;
 
 use PDO;
 use PDOException;
 
 class Database extends PDO
 {
-    private static $instance;
-    private static $type;
-    private static $name;
-    private static $host;
-    private static $username;
-    private static $password;
-    private static $port;
+    public function __construct($type, $name, $host, $username, $password, $port)
+    {
+        parent::__construct(
+            $type.':host=' . $host . ';dbname=' . $name . ';port=' . (int) $port,
+            $username,
+            $password,
+            array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)
+        );
+    }
 
     public function execute($sql, $params = array())
     {
@@ -145,23 +147,5 @@ class Database extends PDO
             }
         }
         return $statement;
-    }
-
-    public static function employ($type, $name, $host, $username, $password, $port)
-    {
-        self::$type = $type;
-        self::$name = $name;
-        self::$host = $host;
-        self::$username = $username;
-        self::$password = $password;
-        self::$port = (int) $port;
-    }
-
-    public static function getInstance()
-    {
-        if (!self::$instance instanceof self) {
-            self::$instance = new self(self::$type.':host='.self::$host.';dbname='.self::$name.';port='.self::$port, self::$username, self::$password, array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION));
-        }
-        return self::$instance;
     }
 }

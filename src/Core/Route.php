@@ -2,48 +2,48 @@
 
 namespace Core;
 
+/**
+ * @method static Route get(string $route, string $class, string $method)
+ * @method static Route post(string $route, string $class, string $method)
+ * @method static Route put(string $route, string $class, string $method)
+ * @method static Route delete(string $route, string $class, string $method)
+ * @method static Route options(string $route, string $class, string $method)
+ * @method static Route head(string $route, string $class, string $method)
+ */
 class Route
 {
-    const ROUTE_KEY = '__route__';
+    private static $routeKey = '__route__';
+    private static $routes = array();
+    private static $regexes = array();
 
-    private static $instance = null;
-
-    private $routes = array();
-    private $regexes = array();
-    private $route = null;
-
-    public function get($route, $controller, $method)
+    public static function __callStatic($httpMethod, $arguments)
     {
-        $this->addRoute($route, $controller, $method, 'GET');
+        $route = $arguments[0];
+        $controller = (App::space()) ? App::space() . '\Controller\\' . $arguments[1] : 'Controller\\' . $arguments[1];
+        $controller = 'App\\' . $controller;
+        $method = $arguments[2];
+        $httpMethod = strtoupper($httpMethod);
+
+        self::$routes[] = array(
+            'route' => $route,
+            'controller' => $controller,
+            'method' => $method,
+            'httpMethod' => $httpMethod
+        );
+
+        self::$regexes[] = "#^{$route}\$#";
     }
 
-    public function post($route, $controller, $method)
-    {
-        $this->addRoute($route, $controller, $method, 'POST');
-    }
-
-    public function put($route, $controller, $method)
-    {
-        $this->addRoute($route, $controller, $method, 'PUT');
-    }
-
-    public function delete($route, $controller, $method)
-    {
-        $this->addRoute($route, $controller, $method, 'DELETE');
-    }
-
-    public function dispatch()
+    public static function dispatch()
     {
         $routeDef = array();
+        $localServer = (SP_DIR === '/') ? $_SERVER['REQUEST_URI'] : '/';
+        $route = isset($_GET[self::$routeKey]) ? $_GET[self::$routeKey] : $localServer;
 
-        $localServer = SP_DIR === '/' ? $_SERVER['REQUEST_URI'] : '/';
-
-        $this->route = isset($_GET[self::ROUTE_KEY]) ? $_GET[self::ROUTE_KEY] : $localServer;
-
-        foreach ($this->regexes as $ind => $regex) {
-            if (preg_match($regex, $this->route, $arguments)) {
+        foreach (self::$regexes as $ind => $regex) {
+            if (preg_match($regex, $route, $arguments)) {
                 array_shift($arguments);
-                $def = $this->routes[$ind];
+                $def = self::$routes[$ind];
                 if ($_SERVER['REQUEST_METHOD'] != $def['httpMethod']) {
                     continue;
                 } elseif (method_exists($def['controller'], $def['method'])) {
@@ -57,26 +57,11 @@ class Route
             }
         }
 
-        return call_user_func_array(array($routeDef['controller'], $routeDef['method']), $routeDef['args']);
+        return call_user_func_array(array(new $routeDef['controller'], $routeDef['method']), $routeDef['args']);
     }
 
-    private function addRoute($route, $controller, $method, $httpMethod)
+    public static function load()
     {
-        $controller = (M::App()->space()) ? M::App()->space() . '\Controller\\' . $controller : 'Controller\\' . $controller;
-        $this->routes[] = array(
-            'route' => $route,
-            'controller' => $controller,
-            'method' => $method,
-            'httpMethod' => $httpMethod
-        );
-        $this->regexes[] = "#^{$route}\$#";
-    }
-
-    public static function getInstance()
-    {
-        if (!self::$instance instanceof self) {
-            self::$instance = new self;
-        }
-        return self::$instance;
+        require BASE_PATH . '/src/Boot/Router.php';
     }
 }

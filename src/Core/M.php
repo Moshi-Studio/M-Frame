@@ -2,35 +2,50 @@
 
 namespace Core;
 
+/**
+ * @method static M Cache()
+ * @method static M Database()
+ * @method static M Session()
+ */
 class M
 {
-    public static function App()
+    private static $registry = [];
+
+    public static function set($key, $value)
     {
-        return App::getInstance();
+        static::$registry[$key] = $value;
     }
 
-    public static function Cache()
+    public static function get($key)
     {
-        return Cache::getInstance();
+        if (!array_key_exists($key, self::$registry)) {
+            throw new \Exception("No {$key} is bound in the container.");
+        }
+        return self::$registry[$key];
     }
 
-    public static function Database()
+    public static function __callStatic($key, $arguments)
     {
-        return Database::getInstance();
+        if (!array_key_exists(strtolower($key), self::$registry)) {
+            throw new \Exception("No {$key} is bound in the container.");
+        }
+        return self::$registry[strtolower($key)];
     }
 
-    public static function Response()
+    public static function errorHandler($e, $customMessage = "")
     {
-        return Response::getInstance();
-    }
+        if (!$e instanceof \Exception) {
+            $class = get_class($e);
+            $message = $e->getMessage();
+            $code = $e->getCode();
+            $file = $e->getFile();
+            $line = $e->getLine();
+            $trace = $e->getTraceAsString();
+            $date = date('M d Y G:iA');
 
-    public static function Route()
-    {
-        return Route::getInstance();
-    }
+            $logMessage = "PHP Error information: {$customMessage}\n\tClass: {$class}\n\tDate: {$date}\n\tMessage: {$message}\n\tCode: {$code}\n\tFile: {$file}\n\tLine: {$line}\n\tStack trace:\n{$trace}\n\n";
 
-    public static function Session()
-    {
-        return Session::getInstance();
+            error_log($logMessage, 3, BASE_PATH . '/logs/error.log');
+        }
     }
 }

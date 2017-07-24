@@ -25,7 +25,7 @@ class Response
         if (is_array($vars)) {
             extract($vars);
         }
-        $viewsPath = App::getConfig('basePath') . (($space = App::space()) ? '/src/App/' . $space . '/View/' : '/src/App/View/');
+        $viewsPath = BASE_PATH . (($space = App::space()) ? '/src/App/' . $space . '/View/' : '/src/App/View/');
         $templateInclude = $viewsPath . $template;
         if (is_file($templateInclude)) {
             require $templateInclude;

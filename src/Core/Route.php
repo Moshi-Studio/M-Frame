@@ -2,6 +2,14 @@
 
 namespace Core;
 
+/**
+ * @method static Route get(string $route, string $class, string $method)
+ * @method static Route post(string $route, string $class, string $method)
+ * @method static Route put(string $route, string $class, string $method)
+ * @method static Route delete(string $route, string $class, string $method)
+ * @method static Route options(string $route, string $class, string $method)
+ * @method static Route head(string $route, string $class, string $method)
+ */
 class Route
 {
     private static $routeKey = '__route__';
@@ -54,6 +62,6 @@ class Route
 
     public static function load()
     {
-        require __DIR__ . '/../Boot/Router.php';
+        require BASE_PATH . '/src/Boot/Router.php';
     }
 }

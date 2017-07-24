@@ -2,8 +2,6 @@
 
 namespace Core;
 
-use stdClass;
-
 use Data\Cache;
 use Data\Database;
 use Data\Session;
@@ -36,7 +34,7 @@ class App
     {
         if ($spaces = self::getConfig('app')->spaces) {
             $uris = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-            $uris = str_replace(self::getConfig('spacePublic'), '/', $uris);
+            $uris = str_replace(SP_DIR, '/', $uris);
             $uri = strtolower(explode('/', $uris)[1]);
             $spaces = explode(',', $spaces);
             if ($uris !== '/' && in_array($uri, $spaces)) {
@@ -65,7 +63,8 @@ class App
             M::set('session', new Session(
                     self::getConfig($session)->host,
                     self::getConfig($session)->port,
-                    self::getConfig($session)->expiry
+                    self::getConfig($session)->expiry,
+                    self::getConfig($session)->namespace
                 )
             );
         }
@@ -74,7 +73,8 @@ class App
             M::set('cache', new Cache(
                     self::getConfig($cache)->host,
                     self::getConfig($cache)->port,
-                    self::getConfig($cache)->expiry
+                    self::getConfig($cache)->expiry,
+                    self::getConfig($cache)->namespace
                 )
             );
         }
@@ -84,29 +84,29 @@ class App
         }
     }
 
-    public static function spacePublic($dir) {
-        self::setConfig('spacePublic', $dir);
-        DEFINE('SP_DIR', self::getConfig('spacePublic'));
+    public static function spacePublic($dir)
+    {
+        DEFINE('SP_DIR', $dir);
         DEFINE('SP_FILES', self::space() ? SP_DIR . 'files/' . strtolower(self::space()) . '/' : SP_DIR . 'files/');
     }
 
-    public static function run() {
+    public static function run()
+    {
         Route::load();
         Response::handler(Route::dispatch());
     }
 
     public static function loadConfig()
     {
-        self::$config = new stdClass;
-        self::setConfig('basePath', realpath(__DIR__ . '/../../'));
-        $file = self::getConfig('basePath') . '/src/Boot/Config.ini';
+        self::$config = new \stdClass;
+        $file = BASE_PATH . '/src/Boot/Config.ini';
         $parsed_array = parse_ini_file($file, true);
         foreach ($parsed_array as $key => $value) {
             if (!is_array($value)) {
                 self::$config->$key = $value;
             } else {
                 if (!isset(self::$config->$key)) {
-                    self::$config->$key = new stdClass;
+                    self::$config->$key = new \stdClass;
                 }
                 foreach ($value as $innerKey => $innerValue) {
                     self::$config->$key->$innerKey = $innerValue;

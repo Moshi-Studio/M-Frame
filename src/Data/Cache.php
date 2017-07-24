@@ -6,29 +6,40 @@ use Memcached;
 
 class Cache
 {
+    private $host;
+    private $port;
     private $expiry;
     private $instance;
+    private $namespace;
 
-    public function __construct($host, $port, $expire)
+    public function __construct($host, $port, $expire, $namespace = null)
     {
+        $this->host = $host;
+        $this->port = $port;
+        $this->expiry = $expire;
+        $this->namespace = is_null($namespace) ? '' : $namespace . '_';
         $this->instance = new Memcached();
-        $this->instance->addServer($host, (int) $port);
-        $this->expiry = (int) $expire;
+        $this->instance->addServer($this->host, $this->port);
     }
 
     public function get($key)
     {
-        return $this->instance->get($key);
+        return $this->instance->get($this->namespace . $key);
     }
 
-    public function set($key = null, $value = null, $ttl = null)
+    public function set($key, $value, $ttl = null)
     {
-        $expiry = ($ttl === null) ? $this->expiry : $ttl;
-        return $this->instance->set($key, $value, $expiry);
+        $expiry = is_null($ttl) ? $this->expiry : $ttl;
+        return $this->instance->set($this->namespace . $key, $value, $expiry);
     }
 
     public function delete($key)
     {
-        return $this->instance->delete($key);
+        return $this->instance->delete($this->namespace . $key);
+    }
+
+    public function getStats()
+    {
+        return $this->instance->getStats()[$this->host . ':' . $this->port];
     }
 }

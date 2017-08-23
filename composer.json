@@ -1,7 +1,7 @@
 {
     "name": "moshi-studio/m-frame",
-    "description": "Moshi's PHP Framework. Small, fast, easy and RESTful.",
-    "keywords": ["Framework", "PHP", "RESTful", "mini", "micro", "small", "fast", "easy"],
+    "description": "The M Frame Micro Framework.",
+    "keywords": ["M Frame", "Micro", "Framework"],
     "license": "MIT",
     "type": "project",
     "homepage": "https://github.com/Moshi-Studio/M-Frame",
@@ -20,18 +20,15 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.6.4"
     },
     "autoload": {
         "psr-4": {
-            "": [
-                "app/",
-                "src/"
-            ]
-        }
+            "": ["src/"]
+        },
+        "files": ["src/Core/Interface.php"]
     },
     "config": {
         "vendor-dir": "src/Vendors"
-    },
-    "minimum-stability": "dev"
+    }
 }

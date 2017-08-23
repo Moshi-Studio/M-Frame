@@ -4,56 +4,42 @@ namespace Core;
 
 class Response
 {
-    public static function handler($response)
+    public static function handler($data)
     {
-        if (isset($response['kind']) && in_array($response['kind'], array('page', 'redirect'))) {
-            switch ($response['kind']) {
-                case 'page':
-                    self::page('index.php', $response);
-                    break;
-                case 'redirect':
-                    self::redirect($response['url'], $response['code'], true);
-                    break;
-            }
-        } else {
-            self::json($response);
+        switch ($data['type']) {
+            case 'page':
+                if (!empty($data['response']['code'])) {
+                    self::page($data['response'], $data['response']['code'], 'index.php');
+                }
+                self::page($data['response']);
+                break;
+            case 'api':
+                if (!empty($data['response']['code'])) {
+                    self::api($data['response'], $data['response']['code']);
+                }
+                self::api($data['response']);
+                break;
         }
     }
 
-    private static function page($template, $vars)
+    public static function page($data, $code = NULL, $template = 'index.php')
     {
-        if (is_array($vars)) {
-            extract($vars);
+        if (!is_null($code)) {
+            http_response_code($code);
         }
-        $viewsPath = BASE_PATH . (($space = App::space()) ? '/src/App/' . $space . '/View/' : '/src/App/View/');
-        $templateInclude = $viewsPath . $template;
-        if (is_file($templateInclude)) {
-            require $templateInclude;
-        } elseif (is_file($template)) {
-            require $template;
-        }
+        extract($data);
+        require BASE_PATH . (!empty(SPACE) ? 'src/App/' . SPACE . '/View/' : 'src/App/View/') . $template;
+        exit();
     }
 
-    private static function redirect($url, $code = null, $offDomain = false)
+    public static function api($data, $code = NULL)
     {
-        $continue = !empty($url);
-        if ($offDomain === false && preg_match('#^https?://#', $url)) {
-            $continue = false;
+        if (!is_null($code)) {
+            http_response_code($code);
         }
-        if ($continue) {
-            if ($code != null && (int)$code == $code) {
-                header("Status: {$code}");
-            }
-            header("Location: {$url}");
-            die();
-        }
-    }
-
-    private static function json($response)
-    {
-        $response = json_encode($response);
+        $encoded = json_encode($data);
         header('Content-Type: application/json');
-        header('Content-Length:' . strlen($response));
-        echo $response;
+        header('Content-Length:' . strlen($encoded));
+        exit($encoded);
     }
 }

@@ -1,6 +1,7 @@
 .DS_Store
-.idea/
+.idea
 .htaccess
-Vendors/
-Config.ini
 composer.lock
+config.ini
+error.log
+Vendors/

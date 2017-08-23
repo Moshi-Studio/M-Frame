@@ -1,1 +1,1 @@
-<?php require __DIR__ . '/../src/Boot/Run.php';
+<?php require __DIR__ . '/../boot.php';

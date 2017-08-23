@@ -1,29 +1,34 @@
 <?php
 
-namespace Data;
+namespace Core;
 
 use PDO;
 use PDOException;
 
-class Database extends PDO
+class Database
 {
-    public function __construct($type, $name, $host, $username, $password, $port)
+    private $instance;
+
+    public function __construct($type, $host, $name, $port, $username, $password)
     {
-        parent::__construct(
-            $type.':host=' . $host . ';dbname=' . $name . ';port=' . (int) $port,
-            $username,
-            $password,
-            array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)
-        );
+        try {
+            $this->instance = new PDO(
+                "{$type}:host={$host};dbname={$name};port={$port}",
+                $username, $password,
+                array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)
+            );
+        } catch (PDOException $e) {
+            mException()::raise($e->getMessage());
+        }
     }
 
     public function execute($sql, $params = array())
     {
         try {
-            $statement = $this->prepare($sql);
+            $statement = $this->instance->prepare($sql);
             $statement->execute($params);
             if (preg_match('/insert/i', $sql)) {
-                return $this->lastInsertId();
+                return $this->instance->lastInsertId();
             } elseif (preg_match('/update/i', $sql)) {
                 return $statement->rowCount();
             } elseif (preg_match('/delete/i', $sql)) {
@@ -34,41 +39,41 @@ class Database extends PDO
                 return $statement->rowCount();
             }
         } catch (PDOException $e) {
-
+            mException()::raise($e->getMessage());
         }
     }
 
-    public function selectOne($table, $fields = array("*"), $where = array())
+    public function selectOne($table, $fields = array('*'), $where = array())
     {
         $fields = implode(', ', array_values($fields));
-        $sql = "SELECT $fields FROM $table";
+        $sql = "SELECT {$fields} FROM {$table}";
         if (!empty($where)) {
-            $sql .=  " WHERE ".$this->details($where);
+            $sql .=  ' WHERE ' . $this->details($where);
         }
         try {
-            $statement = $this->prepare($sql);
+            $statement = $this->instance->prepare($sql);
             $statement = $this->binds($statement, $where);
             $statement->execute();
             return $statement->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-
+            mException()::raise($e->getMessage());
         }
     }
 
-    public function selectAll($table, $fields = array("*"), $where = array())
+    public function selectAll($table, $fields = array('*'), $where = array())
     {
         $fields = implode(', ', array_values($fields));
-        $sql = "SELECT $fields FROM $table";
+        $sql = "SELECT {$fields} FROM {$table}";
         if (!empty($where)) {
-            $sql .=  " WHERE " . $this->details($where);
+            $sql .=  ' WHERE ' . $this->details($where);
         }
         try {
-            $statement = $this->prepare($sql);
+            $statement = $this->instance->prepare($sql);
             $statement = $this->binds($statement, $where);
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-
+            mException()::raise($e->getMessage());
         }
     }
 
@@ -76,14 +81,14 @@ class Database extends PDO
     {
         ksort($data);
         $names = implode(', ', array_keys($data));
-        $values = ':data_'.implode(', :data_', array_keys($data));
+        $values = ':data_' . implode(', :data_', array_keys($data));
         try {
-            $statement = $this->prepare("INSERT INTO $table ($names) VALUES ($values)");
+            $statement = $this->instance->prepare("INSERT INTO {$table} ({$names}) VALUES ({$values})");
             $statement = $this->binds($statement, $data);
             $statement->execute();
-            return $this->lastInsertId();
+            return $this->instance->lastInsertId();
         } catch (PDOException $e) {
-
+            mException()::raise($e->getMessage());
         }
     }
 
@@ -94,13 +99,13 @@ class Database extends PDO
         $dataDetails = $this->details($data, ',');
         $whereDetails = $this->details($where, 'AND', 'where');
         try {
-            $statement = $this->prepare("UPDATE $table SET $dataDetails WHERE $whereDetails");
+            $statement = $this->instance->prepare("UPDATE {$table} SET {$dataDetails} WHERE {$whereDetails}");
             $statement = $this->binds($statement, $data);
             $statement = $this->binds($statement, $where, 'where');
             $statement->execute();
             return $statement->rowCount();
         } catch (PDOException $e) {
-
+            mException()::raise($e->getMessage());
         }
     }
 
@@ -109,12 +114,12 @@ class Database extends PDO
         ksort($where);
         $whereDetails = $this->details($where);
         try {
-            $statement = $this->prepare("DELETE FROM $table WHERE $whereDetails");
+            $statement = $this->instance->prepare("DELETE FROM {$table} WHERE {$whereDetails}");
             $statement = $this->binds($statement, $where);
             $statement->execute();
             return $statement->rowCount();
         } catch (PDOException $e) {
-
+            mException()::raise($e->getMessage());
         }
     }
 
@@ -124,26 +129,26 @@ class Database extends PDO
         $i = 0;
         foreach ($data as $key => $value) {
             if ($i === 0) {
-                $details .= $key.'=:'.$identifier.'_'.$key;
+                $details .= $key . '=:' . $identifier . '_' . $key;
             } else {
-                $details .= ' '.$separator.' '.$key.'=:'.$identifier.'_'.$key;
+                $details .= ' ' . $separator . ' ' . $key . '=:' . $identifier . '_' . $key;
             }
             $i++;
         }
-        return ltrim($details, " $separator ");
+        return ltrim($details, " {$separator} ");
     }
 
     private function binds($statement, $data, $identifier = 'data')
     {
         foreach ($data as $key => $value) {
             if (is_int($value)) {
-                $statement->bindValue(":".$identifier."_".$key, $value, PDO::PARAM_INT);
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_INT);
             } elseif (is_bool($value)) {
-                $statement->bindValue(":".$identifier."_".$key, $value, PDO::PARAM_BOOL);
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_BOOL);
             } elseif (is_null($value)) {
-                $statement->bindValue(":".$identifier."_".$key, $value, PDO::PARAM_NULL);
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_NULL);
             } else {
-                $statement->bindValue(":".$identifier."_".$key, $value, PDO::PARAM_STR);
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_STR);
             }
         }
         return $statement;

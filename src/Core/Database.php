@@ -48,7 +48,7 @@ class Database
         $fields = implode(', ', array_values($fields));
         $sql = "SELECT {$fields} FROM {$table}";
         if (!empty($where)) {
-            $sql .=  ' WHERE ' . $this->details($where);
+            $sql .= ' WHERE ' . $this->details($where);
         }
         try {
             $statement = $this->instance->prepare($sql);
@@ -65,7 +65,7 @@ class Database
         $fields = implode(', ', array_values($fields));
         $sql = "SELECT {$fields} FROM {$table}";
         if (!empty($where)) {
-            $sql .=  ' WHERE ' . $this->details($where);
+            $sql .= ' WHERE ' . $this->details($where);
         }
         try {
             $statement = $this->instance->prepare($sql);

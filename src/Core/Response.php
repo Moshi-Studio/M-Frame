@@ -6,37 +6,32 @@ class Response
 {
     public static function handler($data)
     {
+        if (!empty($data['response']['code'])) {
+            http_response_code($data['response']['code']);
+        }
+
         switch ($data['type']) {
             case 'page':
-                if (!empty($data['response']['code'])) {
-                    self::page($data['response'], $data['response']['code'], 'index.php');
-                }
                 self::page($data['response']);
                 break;
             case 'api':
-                if (!empty($data['response']['code'])) {
-                    self::api($data['response'], $data['response']['code']);
-                }
                 self::api($data['response']);
+                break;
+            case 'head':
+                ob_end_clean();
                 break;
         }
     }
 
-    public static function page($data, $code = NULL, $template = 'index.php')
+    public static function page($data, $template = 'index.php')
     {
-        if (!is_null($code)) {
-            http_response_code($code);
-        }
         extract($data);
         require BASE_PATH . (!empty(SPACE) ? 'src/App/' . SPACE . '/View/' : 'src/App/View/') . $template;
         exit();
     }
 
-    public static function api($data, $code = NULL)
+    public static function api($data)
     {
-        if (!is_null($code)) {
-            http_response_code($code);
-        }
         $encoded = json_encode($data);
         header('Content-Type: application/json');
         header('Content-Length:' . strlen($encoded));

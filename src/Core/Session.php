@@ -37,7 +37,7 @@ class Session
 
     public function get($key)
     {
-        if(!isset($this->store[$key])) {
+        if (!isset($this->store[$key])) {
             return false;
         }
         return $this->store[$key];

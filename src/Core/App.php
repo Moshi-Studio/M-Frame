@@ -30,7 +30,7 @@ class App
             mException()::raise("No {$key} config is bound in the container.");
         }
 
-        return (object) self::$app['config'][$key];
+        return (object)self::$app['config'][$key];
     }
 
     public static function data($key)
@@ -83,7 +83,6 @@ class App
     public static function run()
     {
         define('SPACE', self::currentSpace());
-        define('SP_DIR', self::config('app')->webroot);
         define('SP_FILES', self::currentFiles());
 
         require BASE_PATH . 'src/App/Run.php';

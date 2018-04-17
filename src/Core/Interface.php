@@ -48,6 +48,27 @@ function mException()
 }
 
 /**
+ * @param string $name
+ * @param string message
+ * @return void
+ */
+function mLog($name, $message)
+{
+    $pathname = __DIR__ . '/../../logs/';
+    if (!is_dir($pathname)) {
+        mkdir($pathname, 0777, true);
+    }
+
+    $filename = $pathname . $name . '.log';
+
+    if (null === $message) {
+        unlink($filename);
+    } else {
+        error_log($message . "\n", 3, $filename);
+    }
+}
+
+/**
  * @param string $url
  * @param int $code
  * @return void

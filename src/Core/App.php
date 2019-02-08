@@ -83,6 +83,7 @@ class App
     public static function run()
     {
         define('SPACE', self::currentSpace());
+        define('SP_DIR', strtolower(SPACE));
         define('SP_FILES', self::currentFiles());
 
         require BASE_PATH . 'src/App/Run.php';

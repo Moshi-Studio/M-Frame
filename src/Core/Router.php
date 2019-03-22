@@ -37,6 +37,12 @@ class Router
         $route = isset($_GET[self::$key]) ? $_GET[self::$key] : $localServer;
         $call = false;
 
+        if ($route != strtolower($route)) {
+            header('Status: 301');
+            header('Location: ' . strtolower($route));
+            exit();
+        }
+
         foreach (self::$regexes as $key => $value) {
             if (preg_match($value, $route, $args)) {
                 array_shift($args);

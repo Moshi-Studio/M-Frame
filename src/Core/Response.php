@@ -23,10 +23,10 @@ class Response
         }
     }
 
-    public static function page($data, $template = 'index.php')
+    public static function page($data)
     {
         extract($data);
-        require BASE_PATH . (!empty(SPACE) ? 'src/App/' . SPACE . '/View/' : 'src/App/View/') . $template;
+        require BASE_PATH . (!empty(SPACE) ? 'src/App/' . SPACE . '/View/' : 'src/App/View/') . 'index.php';
         exit();
     }
 

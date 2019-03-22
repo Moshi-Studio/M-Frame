@@ -22,6 +22,9 @@ class App
     public static function env($env)
     {
         self::$app['config']['app'] = self::config("app-{$env}");
+        foreach (self::$app['config']['app'] as $key => $value) {
+            define(strtoupper('APP_' . $key), $value);
+        }
     }
 
     public static function config($key)

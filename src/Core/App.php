@@ -22,9 +22,6 @@ class App
     public static function env($env)
     {
         self::$app['config']['app'] = self::config("app-{$env}");
-        foreach (self::$app['config']['app'] as $key => $value) {
-            define(strtoupper('APP_' . $key), $value);
-        }
     }
 
     public static function config($key)
@@ -89,6 +86,10 @@ class App
         define('SP_DIR', strtolower(SPACE));
         define('SP_FILES', self::currentFiles());
 
+        foreach (self::$app['config']['app'] as $key => $value) {
+            define(strtoupper('APP_' . $key), $value);
+        }
+        
         require BASE_PATH . 'src/App/Run.php';
 
         mResponse()::handler(

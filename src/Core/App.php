@@ -83,7 +83,7 @@ class App
     public static function run()
     {
         define('SPACE', self::currentSpace());
-        define('SP_DIR', strtolower(SPACE));
+        define('SP_DIR', (('web' == strtolower(SPACE)) ? '' : strtolower(SPACE)));
         define('SP_FILES', self::currentFiles());
 
         foreach (self::$app['config']['app'] as $key => $value) {

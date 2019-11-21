@@ -89,7 +89,7 @@ class App
         foreach (self::$app['config']['app'] as $key => $value) {
             define(strtoupper('APP_' . $key), $value);
         }
-        
+
         require BASE_PATH . 'src/App/Run.php';
 
         mResponse()::handler(
@@ -118,9 +118,9 @@ class App
     private static function currentFiles()
     {
         if (empty(self::config('app')->spaces)) {
-            return self::config('app')->webroot . 'files/';
+            return self::config('app')->webroot . 'space/';
         }
 
-        return self::config('app')->webroot . 'files/' . strtolower(self::currentSpace()) . '/';
+        return self::config('app')->webroot . 'space/' . strtolower(self::currentSpace()) . '/';
     }
 }

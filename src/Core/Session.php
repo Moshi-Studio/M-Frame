@@ -35,17 +35,17 @@ class Session
         $this->store = $this->getAll();
     }
 
+    private function getAll()
+    {
+        return $this->instance->get($this->namespace . $this->key);
+    }
+
     public function get($key)
     {
         if (!isset($this->store[$key])) {
             return false;
         }
         return $this->store[$key];
-    }
-
-    private function getAll()
-    {
-        return $this->instance->get($this->namespace . $this->key);
     }
 
     public function set($key, $value)

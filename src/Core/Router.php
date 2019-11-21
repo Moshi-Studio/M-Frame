@@ -19,7 +19,7 @@ class Router
     public static function __callStatic($request, $args)
     {
         $args[1] = !empty(SPACE) ? 'App\\' . SPACE . '\Controller\\' . $args[1] : "App\Controller\\{$args[1]}";
-        $args[3] = !empty($args[3]) ? $args[3] : 'api';
+        $args[3] = !empty($args[3]) ? $args[3] : 'json';
 
         self::$routes[] = array(
             'route' => $args[0],

@@ -12,7 +12,7 @@ class MException extends Exception
         throw new static($message);
     }
 
-    public static function report(Exception $exception)
+    public static function report(\Exception $exception)
     {
         $class = get_class($exception);
         $message = $exception->getMessage();

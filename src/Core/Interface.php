@@ -1,19 +1,27 @@
 <?php
 
+use Core\App;
+use Core\Cache;
+use Core\Database;
+use Core\MException;
+use Core\Response;
+use Core\Router;
+use Core\Session;
+
 /**
- * @return \Core\Cache
+ * @return Cache
  */
 function mCache()
 {
-    return \Core\App::data('cache');
+    return App::data('cache');
 }
 
 /**
- * @return \Core\Database
+ * @return Database
  */
 function mDatabase()
 {
-    return \Core\App::data('database');
+    return App::data('database');
 }
 
 /**
@@ -40,11 +48,11 @@ function mError($data, $code)
 }
 
 /**
- * @return \Core\MException
+ * @return MException
  */
 function mException()
 {
-    return \Core\App::data('exception');
+    return App::data('exception');
 }
 
 /**
@@ -81,25 +89,25 @@ function mRedirect($url, $code = 302)
 }
 
 /**
- * @return \Core\Response
+ * @return Response
  */
 function mResponse()
 {
-    return \Core\App::data('response');
+    return App::data('response');
 }
 
 /**
- * @return \Core\Router
+ * @return Router
  */
 function mRouter()
 {
-    return \Core\App::data('router');
+    return App::data('router');
 }
 
 /**
- * @return \Core\Session
+ * @return Session
  */
 function mSession()
 {
-    return \Core\App::data('session');
+    return App::data('session');
 }

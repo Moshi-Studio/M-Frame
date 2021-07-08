@@ -60,6 +60,37 @@ class Database
         }
     }
 
+    private function details($data, $separator = 'AND', $identifier = 'data')
+    {
+        $details = '';
+        $i = 0;
+        foreach ($data as $key => $value) {
+            if ($i === 0) {
+                $details .= $key . '=:' . $identifier . '_' . $key;
+            } else {
+                $details .= ' ' . $separator . ' ' . $key . '=:' . $identifier . '_' . $key;
+            }
+            $i++;
+        }
+        return ltrim($details, " {$separator} ");
+    }
+
+    private function binds($statement, $data, $identifier = 'data')
+    {
+        foreach ($data as $key => $value) {
+            if (is_int($value)) {
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_INT);
+            } elseif (is_bool($value)) {
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_BOOL);
+            } elseif (is_null($value)) {
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_NULL);
+            } else {
+                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_STR);
+            }
+        }
+        return $statement;
+    }
+
     public function selectAll($table, $fields = array('*'), $where = array())
     {
         $fields = implode(', ', array_values($fields));
@@ -121,36 +152,5 @@ class Database
         } catch (PDOException $e) {
             mException()::raise($e->getMessage());
         }
-    }
-
-    private function details($data, $separator = 'AND', $identifier = 'data')
-    {
-        $details = '';
-        $i = 0;
-        foreach ($data as $key => $value) {
-            if ($i === 0) {
-                $details .= $key . '=:' . $identifier . '_' . $key;
-            } else {
-                $details .= ' ' . $separator . ' ' . $key . '=:' . $identifier . '_' . $key;
-            }
-            $i++;
-        }
-        return ltrim($details, " {$separator} ");
-    }
-
-    private function binds($statement, $data, $identifier = 'data')
-    {
-        foreach ($data as $key => $value) {
-            if (is_int($value)) {
-                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_INT);
-            } elseif (is_bool($value)) {
-                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_BOOL);
-            } elseif (is_null($value)) {
-                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_NULL);
-            } else {
-                $statement->bindValue(":" . $identifier . "_" . $key, $value, PDO::PARAM_STR);
-            }
-        }
-        return $statement;
     }
 }

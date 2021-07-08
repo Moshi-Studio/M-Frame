@@ -14,8 +14,11 @@ class Response
             case 'page':
                 self::page($data['response']);
                 break;
-            case 'api':
-                self::api($data['response']);
+            case 'json':
+                self::json($data['response']);
+                break;
+            case 'jsonp':
+                self::jsonp($data['response']);
                 break;
             case 'head':
                 ob_end_clean();
@@ -30,11 +33,19 @@ class Response
         exit();
     }
 
-    public static function api($data)
+    public static function json($data)
     {
         $encoded = json_encode($data);
         header('Content-Type: application/json');
         header('Content-Length:' . strlen($encoded));
         exit($encoded);
+    }
+
+    public static function jsonp($data)
+    {
+        $body = $_GET['callback'] . '(' . json_encode($data) . ')';
+        header("Content-Type: application/json");
+        header('Content-Length:' . strlen($body));
+        exit($body);
     }
 }
